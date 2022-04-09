@@ -11,12 +11,14 @@
   "author": "Leon Li <leon.li.1025@gmail.com>",
   "license": "UNLICENSED",
   "devDependencies": {
+    "@types/lodash": "^4.14.181",
     "ava": "^4.1.0",
     "ts-node": "^10.7.0",
     "typescript": "^4.6.3",
     "xo": "^0.48.0"
   },
   "dependencies": {
+    "lodash": "^4.17.21",
     "rxjs": "^7.5.5"
   },
   "ava": {
