@@ -1,0 +1,16 @@
+{
+  "envs": [
+    "es2022",
+    "node"
+  ],
+  "prettier": true,
+  "semicolon": false,
+  "space": true,
+  "rules": {
+    "@typescript-eslint/naming-convention": "off",
+    "import/extensions": [
+      "error",
+      "never"
+    ]
+  }
+}
