@@ -2,8 +2,10 @@
   "name": "crypto-trading-2022",
   "version": "0.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src",
   "scripts": {
+    "build": "tsc",
+    "start": "ts-node .",
     "test": "xo && ava"
   },
   "author": "Leon Li <leon.li.1025@gmail.com>",
