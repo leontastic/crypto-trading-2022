@@ -1,11 +1,8 @@
-import process from 'node:process'
 import { map } from 'rxjs'
 import { webSocket, WebSocketSubjectConfig } from 'rxjs/webSocket'
-import ws from 'ws'
 import {
   BINANCE_EXCHANGE_WEBSOCKET_URL,
   BINANCE_TICKER_PAIRS,
-  EXIT_EVENTS,
 } from '../constants'
 
 type Ticker = {
@@ -28,13 +25,7 @@ const subscription = {
 
 const binance$ = webSocket({
   url: BINANCE_EXCHANGE_WEBSOCKET_URL,
-  WebSocketCtor: ws,
 } as unknown as WebSocketSubjectConfig<Ticker>)
-
-for (const eventType of EXIT_EVENTS)
-  process.on(eventType, () => {
-    binance$.complete()
-  })
 
 export const subject = binance$
   .multiplex(

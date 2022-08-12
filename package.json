@@ -4,8 +4,8 @@
   "description": "",
   "main": "src",
   "scripts": {
-    "build": "tsc",
-    "start": "ts-node .",
+    "build": "esbuild src/index.ts --bundle --outdir=dist",
+    "start": "esbuild src/index.ts --bundle --outdir=dist --servedir=.",
     "test": "xo && ava"
   },
   "author": "Leon Li <leon.li.1025@gmail.com>",
@@ -14,6 +14,7 @@
     "@types/lodash": "^4.14.181",
     "@types/ws": "^8.5.3",
     "ava": "^4.1.0",
+    "esbuild": "^0.15.1",
     "ts-node": "^10.7.0",
     "typescript": "^4.6.3",
     "xo": "^0.48.0"

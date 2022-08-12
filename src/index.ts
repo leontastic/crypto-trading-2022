@@ -1,5 +1,5 @@
-import { concat, set, sortBy, toNumber } from 'lodash'
-import { combineLatestWith, map, scan, throttleTime } from 'rxjs'
+import { toNumber } from 'lodash'
+import { map, merge } from 'rxjs'
 import { subject as binance } from './subjects/binance'
 import { subject as coinbase } from './subjects/coinbase'
 
@@ -11,47 +11,27 @@ type Ticker = {
   time: Date
 }
 
-const coinbase$ = coinbase.pipe(
-  scan(
-    (tickers, { product_id, best_bid: bid, best_ask: ask, time }) =>
-      set(tickers, product_id, {
-        exchange: 'coinbase',
-        symbol: product_id.replace('-', ''),
-        bid: toNumber(bid),
-        ask: toNumber(ask),
-        time: new Date(time),
-      }),
-    {} as Record<string, Ticker>
-  ),
-  map((tickerMap) => Object.values(tickerMap))
+const coinbase$ = coinbase.pipe<Ticker>(
+  map(({ product_id, best_bid: bid, best_ask: ask, time }) => ({
+    exchange: 'coinbase',
+    symbol: product_id.replace('-', ''),
+    bid: toNumber(bid),
+    ask: toNumber(ask),
+    time: new Date(time),
+  }))
 )
 
-const binance$ = binance.pipe(
-  scan(
-    (tickers, { s: symbol, b: bid, a: ask }) =>
-      set(tickers, symbol, {
-        symbol,
-        exchange: 'binance',
-        bid: toNumber(bid),
-        ask: toNumber(ask),
-        time: new Date(),
-      }),
-    {} as Record<string, Ticker>
-  ),
-  map((tickerMap) => Object.values(tickerMap))
+const binance$ = binance.pipe<Ticker>(
+  map(({ s: symbol, b: bid, a: ask }) => ({
+    exchange: 'binance',
+    symbol,
+    bid: toNumber(bid),
+    ask: toNumber(ask),
+    time: new Date(),
+  }))
 )
 
-coinbase$
-  .pipe(
-    combineLatestWith(binance$),
-    throttleTime(500),
-    map((tickers) => sortBy(concat(...tickers), 'symbol'))
-  )
-  .subscribe({
-    next(tickers) {
-      console.clear()
-      console.log(new Date().toISOString())
-      console.table(tickers)
-    },
-    error: console.error,
-  })
+merge(coinbase$, binance$).subscribe({
+  next: console.log,
+  error: console.error,
+})
