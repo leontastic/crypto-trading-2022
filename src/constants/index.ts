@@ -1,6 +1,4 @@
-export const COINBASE_EXCHANGE_WEBSOCKET_URL =
-  'wss://ws-feed.exchange.coinbase.com'
-
+export * from './coinbase'
 export const EXIT_EVENTS = [
   'exit',
   'SIGINT',

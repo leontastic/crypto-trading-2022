@@ -1,31 +1,28 @@
-import process from 'node:process'
-import { webSocket, WebSocketSubjectConfig } from 'rxjs/webSocket'
-import ws from 'ws'
-import { COINBASE_EXCHANGE_WEBSOCKET_URL, EXIT_EVENTS } from './constants'
+import { set } from 'lodash'
+import { filter, scan, throttleTime } from 'rxjs'
+import { subject as coinbase } from './subjects/coinbase'
 
-const subscription = {
-  product_ids: ['ETH-USD'],
-  channels: ['ticker'],
-}
-
-const coinbase$ = webSocket({
-  url: COINBASE_EXCHANGE_WEBSOCKET_URL,
-  WebSocketCtor: ws,
-  openObserver: {
-    next() {
-      coinbase$.next({ type: 'subscribe', ...subscription })
-    },
-  },
-  closingObserver: {
-    next() {
-      coinbase$.next({ type: 'unsubscribe', ...subscription })
-    },
-  },
-} as unknown as WebSocketSubjectConfig<Record<string, unknown>>)
-
-coinbase$.subscribe(console.log)
-
-for (const eventType of EXIT_EVENTS)
-  process.on(eventType, () => {
-    coinbase$.complete()
+coinbase
+  .pipe(
+    filter(
+      ({ product_id }) =>
+        product_id.startsWith('ETH-') || product_id.endsWith('-ETH')
+    ),
+    scan(
+      (tickers, { product_id, price, best_bid, best_ask, time, last_size }) =>
+        set(tickers, product_id, {
+          price,
+          best_bid,
+          best_ask,
+          time,
+          last_size,
+        }),
+      {}
+    ),
+    throttleTime(100)
+  )
+  .subscribe((tickers) => {
+    console.clear()
+    console.log(new Date().toISOString())
+    console.table(tickers)
   })
