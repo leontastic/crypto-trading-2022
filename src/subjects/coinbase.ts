@@ -4,7 +4,7 @@ import {
   COINBASE_TICKER_PAIRS,
 } from '../constants'
 
-export type Ticker = {
+type Ticker = {
   type: 'ticker'
   sequence: number
   product_id: string
@@ -31,7 +31,7 @@ const coinbase$ = webSocket<Ticker>({
   url: COINBASE_EXCHANGE_WEBSOCKET_URL,
 } as unknown as WebSocketSubjectConfig<Ticker>)
 
-export const subject = coinbase$.multiplex(
+export default coinbase$.multiplex(
   () => ({ type: 'subscribe', ...subscription }),
   () => ({ type: 'unsubscribe', ...subscription }),
   ({ type }) => subscription.channels.includes(type)

@@ -27,7 +27,7 @@ const binance$ = webSocket({
   url: BINANCE_EXCHANGE_WEBSOCKET_URL,
 } as unknown as WebSocketSubjectConfig<Ticker>)
 
-export const subject = binance$
+export default binance$
   .multiplex(
     () => ({ method: 'SUBSCRIBE', ...subscription, id: Date.now() }),
     () => ({ method: 'UNSUBSCRIBE', ...subscription, id: Date.now() }),

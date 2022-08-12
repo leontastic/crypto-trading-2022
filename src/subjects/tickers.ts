@@ -1,7 +1,7 @@
 import { toNumber } from 'lodash'
 import { map, merge } from 'rxjs'
-import { subject as binance } from './subjects/binance'
-import { subject as coinbase } from './subjects/coinbase'
+import binance from './binance'
+import coinbase from './coinbase'
 
 type Ticker = {
   symbol: string
@@ -31,7 +31,4 @@ const binance$ = binance.pipe<Ticker>(
   }))
 )
 
-merge(coinbase$, binance$).subscribe({
-  next: console.log,
-  error: console.error,
-})
+export default merge(coinbase$, binance$)
