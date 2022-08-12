@@ -4,14 +4,16 @@
   "description": "",
   "main": "src",
   "scripts": {
-    "build": "esbuild src/index.ts --bundle --outdir=dist",
-    "start": "esbuild src/index.ts --bundle --outdir=dist --servedir=.",
+    "build": "esbuild src/index.tsx --bundle --outdir=dist",
+    "start": "esbuild src/index.tsx --bundle --outdir=dist --servedir=.",
     "test": "xo && ava"
   },
   "author": "Leon Li <leon.li.1025@gmail.com>",
   "license": "UNLICENSED",
   "devDependencies": {
     "@types/lodash": "^4.14.181",
+    "@types/react": "^18.0.17",
+    "@types/react-dom": "^18.0.6",
     "@types/ws": "^8.5.3",
     "ava": "^4.1.0",
     "esbuild": "^0.15.1",
@@ -21,6 +23,8 @@
   },
   "dependencies": {
     "lodash": "^4.17.21",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "rxjs": "^7.5.5",
     "ws": "^8.5.0"
   },
