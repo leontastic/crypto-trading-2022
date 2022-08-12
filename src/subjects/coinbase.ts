@@ -26,7 +26,7 @@ export type Ticker = {
 }
 
 const subscription = {
-  product_ids: COINBASE_TICKER_PAIRS,
+  product_ids: COINBASE_TICKER_PAIRS.map((pair) => pair.join('-')),
   channels: ['ticker'],
 }
 

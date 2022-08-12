@@ -1,3 +1,4 @@
+export * from './binance'
 export * from './coinbase'
 export const EXIT_EVENTS = [
   'exit',

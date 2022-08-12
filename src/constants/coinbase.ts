@@ -661,4 +661,4 @@ export const COINBASE_TICKER_PAIRS = [
   ['XYO', 'EUR'],
   ['XYO', 'USDT'],
   ['ZRX', 'EUR'],
-].map((pair) => pair.join('-'))
+]
