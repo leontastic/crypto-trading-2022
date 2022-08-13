@@ -10,10 +10,10 @@ export const slice = createSlice({
   name: 'tickers',
   initialState: adapter.getInitialState(),
   reducers: {
-    setTicker: adapter.setOne,
+    setTickers: adapter.setMany,
   },
 })
 
-export const { setTicker } = slice.actions
+export const { setTickers } = slice.actions
 
 export default slice.reducer
