@@ -1,5 +1,5 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit'
-import type { Ticker } from '../../subjects/tickers'
+import type { Ticker } from '../../types'
 
 export const adapter = createEntityAdapter<Ticker>({
   selectId: (ticker) => `${ticker.exchange}:${ticker.symbol}`,

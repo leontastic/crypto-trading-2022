@@ -1,14 +1,7 @@
 import { map, merge } from 'rxjs'
+import { Ticker } from '../types'
 import binance from './binance'
 import coinbase from './coinbase'
-
-export type Ticker = {
-  symbol: string
-  exchange: string
-  bid: string
-  ask: string
-  time: string
-}
 
 const coinbase$ = coinbase.pipe<Ticker>(
   map(({ product_id, best_bid: bid, best_ask: ask, time }) => ({

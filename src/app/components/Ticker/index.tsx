@@ -7,7 +7,7 @@ import BigNumber from 'bignumber.js'
 import Flex from '../Flex'
 import { selectById } from '../../../store/selectors/tickers'
 import { RootState } from '../../../store'
-import { Ticker as TickerData } from '../../../subjects/tickers'
+import { Ticker as TickerData } from '../../../types'
 
 BigNumber.config({ DECIMAL_PLACES: 20 })
 
